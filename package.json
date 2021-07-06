@@ -1,0 +1,31 @@
+{
+  "name": "com.epsilonnet.sewooprinter",
+  "version": "0.0.2",
+  "description": "A Cordova/Phonegap driver for Cardlink Printers",
+  "cordova": {
+    "id": "com.epsilonnet.sewooprinter",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csampalis/com.epsilonnet.sewooprinter.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "author": "epsilonnet",
+  "license": "Apache",
+  "bugs": {
+    "url": "https://github.com/csampalis/com.epsilonnet.sewooprinter/issues"
+  },
+  "homepage": "https://github.com/csampalis/com.epsilonnet.sewooprinter#readme"
+}
