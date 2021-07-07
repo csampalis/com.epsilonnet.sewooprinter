@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    id="com.cardlinkprint.epsilonnet"
+    id="com.epsilonnet.sewooprinter"
 
     version="0.01">
 
-    <name>Cardlink Printer</name>
-	<description>A Cordova/Phonegap driver for Cardlink Printers</description>
+    <name>Sewoo Printer</name>
+	<description>A Cordova/Phonegap driver for Sewoo Printers</description>
     <license>Apache</license>
     <engines>
         <engine name="cordova" version=">=7.1.0"/>
@@ -15,9 +15,9 @@
 
     <!-- android -->
     <platform name="android">
-		<source-file src="src/android/CardlinkPrinter.java" target-dir="src/com/cardlinkprint/epsilonnet"/>
-		<js-module src="www/CardlinkPrinter.js" name="CardlinkPrinter">
-			<clobbers target="window.cardlinkPrinter" />
+		<source-file src="src/android/SewooPrinter.java" target-dir="src/com/epsilonnet/sewooprinter"/>
+		<js-module src="www/SewooPrinter.js" name="SewooPrinter">
+			<clobbers target="window.sewooPrinter" />
 		</js-module>
 		
       <config-file target="AndroidManifest.xml" parent="/*">
@@ -26,21 +26,14 @@
      </config-file>   
 
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="CardlinkPrinter">
-                <param name="android-package" value="com.cardlinkprint.epsilonnet.CardlinkPrinter" />
+            <feature name="SewooPrinter">
+                <param name="android-package" value="com.epsilonnet.sewooprinter.SewooPrinter" />
             </feature>
         </config-file>
 		<framework src="src/android/yourFile.gradle" custom="true" type="gradleReference"/>
-		 <framework src="com.android.support:support-v4:$ANDROID_SUPPORT_V4_VERSION"/>
-		 <lib-file src="src/android/spiresdk-debug.aar"  />
-		 <lib-file src="src/android/commonsdk-debug.aar"  />
-		<!-- <lib-file src="src/android/paxcardsdk-debug.aar"  /> -->
 		
-		<preference name="ANDROID_SUPPORT_V4_VERSION" default="27.+"/>
-		
-         <!-- <framework src="src/android/yourFile.gradle" custom="true" type="gradleReference" /> -->
-
-    <!-- <resource-file src="libs/spiresdk-debug.aar" target="libs/spiresdk-debug.aar" /> -->
+	
+    <resource-file src="src/android/Sewoo_Android_1108.jar" target="libs/Sewoo_Android_1108.jar" /> -->
 	
     </platform>
 	
