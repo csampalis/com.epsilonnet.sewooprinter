@@ -32,8 +32,8 @@
         </config-file>
 		<framework src="src/android/yourFile.gradle" custom="true" type="gradleReference"/>
 		
-	
-    <resource-file src="src/android/Sewoo_Android_1108.jar" target="libs/Sewoo_Android_1108.jar" /> -->
+	 <lib-file src="src/android/Sewoo_Android_1108.jar"  />
+    
 	
     </platform>
 	
