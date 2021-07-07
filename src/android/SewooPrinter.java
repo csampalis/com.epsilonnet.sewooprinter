@@ -46,14 +46,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
 import org.apache.cordova.PermissionHelper;
 
-//import gr.sdk.spire.callbacks.front.paxpos.IPaxPrinterListener;
-import gr.sdk.commonsdk.utils.paxdevice.printer.IPaxPrinterListener;
-//import gr.sdk.spire.common.debug.Debug;
-//import gr.sdk.spire.utils.common.receiptbuilder.ReceiptBuilder;
-import gr.sdk.commonsdk.utils.receiptbuilder.ReceiptBuilder;
-//import gr.sdk.spire.utils.paxpos.device.printer.PaxPrinter;
-import gr.sdk.commonsdk.utils.paxdevice.printer.PaxPrinter;
-import gr.sdk.spire.manager.DeviceManager;
+
 
 public class SewooPrinter extends CordovaPlugin {
 
@@ -68,7 +61,7 @@ public class SewooPrinter extends CordovaPlugin {
     @Override
     public void pluginInitialize() {
         Context cons = webView.getContext();
-        DeviceManager.getInstance().initialize(cons);
+      
     }
 
 
@@ -84,134 +77,15 @@ public class SewooPrinter extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if (action.equals("printText")) {
+      if (action.equals("printBitmapFromPath")) {
             try {
-                JSONObject res = getPrinterStatus();
-                if (res != null && res.getInt("statusCode") == 0) {
-                    JSONArray arr = args.getJSONArray(0);
-                    ReceiptBuilder receiptBuilder = new ReceiptBuilder(1300);
-                    receiptBuilder.setTextSize(80F);
-                    //Step Builder
-                    for (int i = 0; i < arr.length(); i++) {
-                        receiptBuilder.addText(arr.getString(i), true).addBlankSpace(50);
-                    }
-                    receiptBuilder.addBlankSpace(200);
-
-                    Bitmap bitmap = receiptBuilder.build();
-                    IPaxPrinterListener iPaxPrinterListener = new IPaxPrinterListener() {
-                        public void onSuccessPrint(String actionCode) {
-                            //   Debug.LogInfo(LOG_TAG, "onSuccessPrint $actionCode");
-                            callbackContext.success("OK");
-                        }
-
-                        public void onFailedPrint(int errorCode, String errorMessage, String actionCode) {
-                            callbackContext.error(errorMessage);
-                            //Debug.LogInfo(LOG_TAG, "onSuccessPrint $actionCode");
-                        }
-                    };
-
-                    PaxPrinter.printTheReceipt(bitmap, 300, "1", true, iPaxPrinterListener);
-                } else
-                    callbackContext.error(res.getString("statusDescription"));
-            } catch (Exception e) {
-                callbackContext.error(e.getMessage());
-            }
-            return true;
-        } else if (action.equals("printPDF")) {
-            try {
-                JSONObject res = getPrinterStatus();
-                if (res != null && res.getInt("statusCode") == 0) {
-                    String base64String = args.getString(0);
-                    File file = createPdfFile(base64String);
-                    IPaxPrinterListener iPaxPrinterListener = new IPaxPrinterListener() {
-                        public void onSuccessPrint(String actionCode) {
-                            //   Debug.LogInfo(LOG_TAG, "onSuccessPrint $actionCode");
-                            callbackContext.success("OK");
-                        }
-
-                        public void onFailedPrint(int errorCode, String errorMessage, String actionCode) {
-                            callbackContext.error(errorMessage);
-                            //Debug.LogInfo(LOG_TAG, "onSuccessPrint $actionCode");
-                        }
-                    };
-
-                    ArrayList<Bitmap> bitmaps = pdfToBitmap(file);
-                    for (int i = 0; i < bitmaps.size(); i++) {
-                        IPaxPrinterListener prm = null;
-                        if (i == bitmaps.size() - 1)
-                            prm = iPaxPrinterListener;
-                        PaxPrinter.printTheReceipt(bitmaps.get(i), 300, "1", true, prm);
-                    }
-
-                } else
-                    callbackContext.error(res.getString("statusDescription"));
-            } catch (Exception e) {
-                callbackContext.error(e.getMessage());
-            }
-            return true;
-        } else if (action.equals("printPDFfromPath")) {
-            try {
-                JSONObject res = getPrinterStatus();
-                if (res != null && res.getInt("statusCode") == 0) {
-                    String filePath = args.getString(0);
-                    File file = new File(filePath);
-                    IPaxPrinterListener iPaxPrinterListener = new IPaxPrinterListener() {
-                        public void onSuccessPrint(String actionCode) {
-                            //   Debug.LogInfo(LOG_TAG, "onSuccessPrint $actionCode");
-                            callbackContext.success("OK");
-                        }
-
-                        public void onFailedPrint(int errorCode, String errorMessage, String actionCode) {
-                            callbackContext.error(errorMessage);
-                            //Debug.LogInfo(LOG_TAG, "onSuccessPrint $actionCode");
-                        }
-                    };
-
-                    ArrayList<Bitmap> bitmaps = pdfToBitmap(file);
-                    for (int i = 0; i < bitmaps.size(); i++) {
-                        IPaxPrinterListener prm = null;
-                        if (i == bitmaps.size() - 1)
-                            prm = iPaxPrinterListener;
-                        PaxPrinter.printTheReceipt(bitmaps.get(i), 300, "1", true, prm);
-                    }
-
-                } else
-                    callbackContext.error(res.getString("statusDescription"));
-            } catch (Exception e) {
-                callbackContext.error(e.getMessage());
-            }
-            return true;
-        } else if (action.equals("printBitmap")) {
-            try {
-                JSONObject res = getPrinterStatus();
-                if (res != null && res.getInt("statusCode") == 0) {
+                
                     String base64String = args.getString(0);
                     Bitmap bitmap = getDecodedBitmap(base64String);
                    // storeImage(bitmap, false);
                     bitmap = getGrayScaleBitmap(bitmap);
                    // storeImage(bitmap, true);
-                    IPaxPrinterListener iPaxPrinterListener = new IPaxPrinterListener() {
-                        public void onSuccessPrint(String actionCode) {
-                            //   Debug.LogInfo(LOG_TAG, "onSuccessPrint $actionCode");
-                            callbackContext.success("OK");
-                        }
-
-                        public void onFailedPrint(int errorCode, String errorMessage, String actionCode) {
-                            callbackContext.error(errorMessage);
-                            //Debug.LogInfo(LOG_TAG, "onSuccessPrint $actionCode");
-                        }
-                    };
-                    PaxPrinter.printTheReceipt(bitmap, 300, "1", true, iPaxPrinterListener);
-                } else
-                    callbackContext.error(res.getString("statusDescription"));
-            } catch (Exception e) {
-                callbackContext.error(e.getMessage());
-            }
-            return true;
-        } else if (action.equals("getPrinterStatus")) {
-            try {
-                JSONObject res = getPrinterStatus();
-                callbackContext.success(res);
+                  
             } catch (Exception e) {
                 callbackContext.error(e.getMessage());
             }
@@ -220,7 +94,7 @@ public class SewooPrinter extends CordovaPlugin {
         return false;
     }
 
-    private JSONObject getPrinterStatus() {
+ 
         try {
             JSONObject res = new JSONObject();
             if (!PaxPrinter.printerExist()) {
